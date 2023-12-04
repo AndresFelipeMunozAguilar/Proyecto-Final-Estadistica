@@ -15,6 +15,21 @@ output:
 lang: es-CO
 ---
 
+# Introducción
+
+En el contexto desafiante que representa la pandemia de COVID-19, este proyecto de estadística se embarca en un análisis exhaustivo de datos exploratorios para arrojar luz sobre las correlaciones inherentes a la situación en Colombia. La magnitud de esta crisis global ha generado interrogantes cruciales que requieren una evaluación minuciosa. En este sentido, planteamos la siguiente interrogante central: ¿Cómo se correlacionan diversas variables relacionadas con el COVID-19 en el contexto colombiano? De esta pregunta central se desprenden las preguntas que serán respondidas en este análisis de datos exploratorio, las cuales son: 
+
+  *Que distribución siguen los datos de los contagios por edad y por género?
+  *¿Existe alguna tendencia en la relación entre la edad y la gravedad de los casos?
+  * ¿Cuales son los factores de riesgo de covid?
+  * ¿Cómo ha afectado la implementación de programas de vacunación a la tasa de contagio?
+
+
+Abordamos este problema a través de una metodología estructurada. Comenzamos por adquirir un dataset exhaustivo que encapsula múltiples dimensiones de la pandemia en Colombia. A continuación, implementamos el análisis en el entorno de programación R, empleando gráficos para examinar la variación de variables correlacionables. La comparación de estas variaciones a lo largo del tiempo, a través de la comparación de gráficos de barras y otros gráficos estadísitcos, generados en distintas épocas temporales, nos proporcionará una visión profunda de las tendencias y patrones emergentes. Además, calcularemos medidas estadísticas pertinentes, desde medidas de tendencia hasta indicadores de variación, para evaluar el comportamiento de las variables y respaldar nuestras conclusiones.
+
+Este análisis no se limitará a la simple observación de correlaciones superficiales; buscamos profundizar mediante una revisión crítica de la técnica analítica propuesta. Reconocemos la limitación inherente de simplemente observar las variaciones de las variables sin establecer una relación de causa-consecuencia. Para abordar esta falencia, complementaremos nuestro análisis con informes y análisis respaldados por fuentes externas. Si la evidencia refuta nuestras hipótesis, no dudaremos en presentarla y ajustar nuestras conclusiones en consecuencia.
+
+La relevancia de este análisis no solo radica en su capacidad para confirmar conocimientos comunes, como la efectividad de la vacunación en la lucha contra la pandemia, sino también en su capacidad para revelar relaciones interesantes entre variables. Este enfoque no solo informará al espectador sobre la situación actual, sino que también fomentará la curiosidad y el entendimiento más profundo de los complejos matices relacionados con la pandemia de COVID-19.
 
  <!--
 
