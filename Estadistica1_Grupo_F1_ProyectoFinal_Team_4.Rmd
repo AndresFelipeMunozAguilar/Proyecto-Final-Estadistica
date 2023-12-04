@@ -32,7 +32,7 @@ Este análisis no se limitará a la simple observación de correlaciones superfi
 La relevancia de este análisis no solo radica en su capacidad para confirmar conocimientos comunes, como la efectividad de la vacunación en la lucha contra la pandemia, sino también en su capacidad para revelar relaciones interesantes entre variables. Este enfoque no solo informará al espectador sobre la situación actual, sino que también fomentará la curiosidad y el entendimiento más profundo de los complejos matices relacionados con la pandemia de COVID-19.
 
 
-# Bibliografía
+# Referencias
   1. Coronavirus. (s. f.). Who.int. Recuperado 4 de diciembre de 2023, de https://www.who.int/es/health-topics/coronavirus
 
 
