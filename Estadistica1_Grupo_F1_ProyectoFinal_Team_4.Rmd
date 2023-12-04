@@ -1,17 +1,22 @@
 ---
-title: "EjemploMarkdown"
-author: "Andres Felipe Muñoz Aguilar"
-date: "2023-11-28"
+title: "Estadistica1_Grupo_F1_ProyectoFinal_Team_4"
+author:
+  - "Andres Felipe Muñoz Aguilar"
+  - "Dylan Francisco Jimenez Sandoval"
+  - "Jaider Daniel Gonzalez Ariza"
+date: "2023-12-5"
 output: 
   html_document: 
-      theme: journal  # dark, classic, cerulean, yeti, journal
+      theme: dark  # dark, classic, cerulean, yeti, journal
       toc: true
       toc_float: true # para mostrar la table of contents (indice) que flota como fantasma a la izquierda de la pantalla
-      number_sections: true
+      number_sections: false
       code_folding: show # show, hide
 lang: es-CO
 ---
 
+
+ <!--
 
 # Encabezado 1
 
@@ -26,7 +31,6 @@ lang: es-CO
 
 *Cursiva*
 
-<!-- el comentario -->
 
 **Negrilla**
 
@@ -77,7 +81,7 @@ knitr::kable(
 ```
 
 # Agregar figuras
-<!-- dos espacios al final de la linea "  " añade una nueva línea (newlinde, endline) -->
+<!-- dos espacios al final de la linea "  " añade una nueva línea (newlinde, endline) 
 Hay 3 tipos de figuras:  
 1. La que se genera desde el ambient de R
 
@@ -91,13 +95,13 @@ plot(pressure)
 <br>
 
 2. Figuras que están descargadas en mi  
-![Peppino pizza taunting](C:/Users/CENTIC/Música/peppino-taunt.gif){width=50% height=50%} <!-- el ultimo corchete es para ajustar caracteristicas-->
+![Peppino pizza taunting](https://media.tenor.com/QYJgPxHT1loAAAAC/pizza-tower.gif){width=50% height=50%} <!-- el ultimo corchete es para ajustar caracteristicas
 
 <br>
 <br>
 
 3. Figuras que están en algún servidor checoslovaco
-![Peppino pizza taunting](https://media.tenor.com/QYJgPxHT1loAAAAC/pizza-tower.gif) <!-- el ultimo corchete es para ajustar caracteristicas-->  
+![Peppino pizza taunting](https://media.tenor.com/QYJgPxHT1loAAAAC/pizza-tower.gif) <!-- el ultimo corchete es para ajustar caracteristicas
 
 
 # Insertando ecuaciones
@@ -121,3 +125,5 @@ La pmf de la distribucion Binomial se escribe como:
   * Otra elemtno de lista
     + Un elemento de sublista
     + Otro elemnto de sublista
+    
+-->
