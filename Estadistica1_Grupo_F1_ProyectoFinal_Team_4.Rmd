@@ -1,0 +1,123 @@
+---
+title: "EjemploMarkdown"
+author: "Andres Felipe Muñoz Aguilar"
+date: "2023-11-28"
+output: 
+  html_document: 
+      theme: journal  # dark, classic, cerulean, yeti, journal
+      toc: true
+      toc_float: true # para mostrar la table of contents (indice) que flota como fantasma a la izquierda de la pantalla
+      number_sections: true
+      code_folding: show # show, hide
+lang: es-CO
+---
+
+
+# Encabezado 1
+
+## Encabezado 2
+
+### Encabezado 3
+
+#### Encabezado 4
+
+
+# Estética de letra
+
+*Cursiva*
+
+<!-- el comentario -->
+
+**Negrilla**
+
+***Cursiva y negrilla***
+
+> Añadir citación 
+
+# Añdir link
+
+[Este link es de cormoran](https://ingsistemas.uis.edu.co/eisi/)
+
+# Añadir codigo en R
+```{R, eval = FALSE}
+
+summary(cars)
+
+
+```
+
+
+
+# Añadir codigo en R, pero, no evaluarlo (No ejecutar)
+```{R, eval = FALSE}
+
+supoekpoekmary(cars) #este comando está mal escroto
+
+```
+
+
+# Añadir codigo en R, pero, sólo mostrar el resultado de la ejecución
+```{R, echo = FALSE}
+
+summary(cars)
+
+```
+
+
+# Agregar tablas
+```{R}
+
+knitr::kable(
+  
+  head(cars),
+  caption = "Esto es una tabla"
+  
+)
+
+```
+
+# Agregar figuras
+<!-- dos espacios al final de la linea "  " añade una nueva línea (newlinde, endline) -->
+Hay 3 tipos de figuras:  
+1. La que se genera desde el ambient de R
+
+```{R}
+
+plot(pressure)
+
+```
+
+<br>
+<br>
+
+2. Figuras que están descargadas en mi  
+![Peppino pizza taunting](C:/Users/CENTIC/Música/peppino-taunt.gif){width=50% height=50%} <!-- el ultimo corchete es para ajustar caracteristicas-->
+
+<br>
+<br>
+
+3. Figuras que están en algún servidor checoslovaco
+![Peppino pizza taunting](https://media.tenor.com/QYJgPxHT1loAAAAC/pizza-tower.gif) <!-- el ultimo corchete es para ajustar caracteristicas-->  
+
+
+# Insertando ecuaciones
+El segundo momento estadistico esta dado por: $\sigma^2[X] = E[X^2]-(E[X])^2$  
+
+<br>
+
+La pmf de la distribucion Binomial se escribe como:  
+
+\begin{equation}
+  f (k) = \binom{n}{k} p^k {1-p}^{n-k}
+\end{equation}
+
+# Agregar regla horizontal
+ 
+ ---
+ 
+ 
+# Agregando listas con viñetas
+  * Un elemento de lista
+  * Otra elemtno de lista
+    + Un elemento de sublista
+    + Otro elemnto de sublista
