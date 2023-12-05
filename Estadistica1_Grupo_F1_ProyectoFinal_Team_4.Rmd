@@ -1,123 +1,71 @@
 ---
-title: "EjemploMarkdown"
-author: "Andres Felipe Muñoz Aguilar"
-date: "2023-11-28"
+title: "Covid-19 En colombia"
+author:
+  - Andres Felipe Muñoz Aguilar
+  - Jaider Daniel Gonzalez Ariza
+  - Dylan
+date: "2023-12-5"
 output: 
   html_document: 
-      theme: journal  # dark, classic, cerulean, yeti, journal
+      theme: dark  # dark, classic, cerulean, yeti, journal
       toc: true
       toc_float: true # para mostrar la table of contents (indice) que flota como fantasma a la izquierda de la pantalla
-      number_sections: true
+      number_sections: false
       code_folding: show # show, hide
 lang: es-CO
 ---
 
+# Introducción
 
-# Encabezado 1
+# Packages Required
 
-## Encabezado 2
-
-### Encabezado 3
-
-#### Encabezado 4
-
-
-# Estética de letra
-
-*Cursiva*
-
-<!-- el comentario -->
-
-**Negrilla**
-
-***Cursiva y negrilla***
-
-> Añadir citación 
-
-# Añdir link
-
-[Este link es de cormoran](https://ingsistemas.uis.edu.co/eisi/)
-
-# Añadir codigo en R
 ```{R, eval = FALSE}
-
-summary(cars)
-
-
+library(ggplot2)
 ```
 
+# Metodología
 
+Para llevar a cabo el estudio sobre casos positivos de COVID-19 en colombia, se utilizo un conjunto de datos recopilado del sitio web oficial del Gobierno de Colombia (GOV.co). Para el uso del dataset se debe tener en cuenta cambiar el directorio de la carpeta, para esto cree una carpeta en el escritorio, dele el nombre que quiera a la carpeta y ahi ingresa el dataset, despues copie la direccion que se encuentra en la parte de arriba y peguela en el codigo, de esta manera podra hacer uso del dataset sin errores.
 
-# Añadir codigo en R, pero, no evaluarlo (No ejecutar)
-```{R, eval = FALSE}
-
-supoekpoekmary(cars) #este comando está mal escroto
-
+<br>
+Para analizar esta información, primero se hizo la carga de datos desde un archivo CSV utilizando R y su entorno de desarrollo. Se utilizo la funcion <span style="text-decoration: underline;">**file.choose()**</span>
+ para seleccionar el archivo y se asigno este conjunto de datos a la variable <span style="text-decoration: underline;">**covid**</span> utilizando la funcion <span style="text-decoration: underline;">**read.csv()**</span>. Luego para visualizar los datos y analizar su estructura se utilizó la función <span style="text-decoration: underline;">**View(covid)**</span>. Lo que nos permitio entender los tipos de variables y sus posibles valores.
+ 
+ ```{R, eval = FALSE}
+file.choose()
+covid=read.csv("C:\\Users\\teams\\OneDrive\\Documentos\\Documentos\\Semestre 6\\Estadistica\\Proyecto_Final\\Base_De_Datos\\Casos_positivos_de_COVID-19_en_Colombia..csv")
+View(covid)
 ```
+Con el objetivo de analizar la distribución de los contagios por edad y género se realizó un proceso de corrección en la columna ("Sexo"). Para garantizar un análisis preciso, se llevo a cabo una revisión en busca de valores faltantes o vacíos en el conjunto de datos. 
 
-
-# Añadir codigo en R, pero, sólo mostrar el resultado de la ejecución
 ```{R, echo = FALSE}
+```
+Debido a que se identificó que existían discrepancias en los valores, algunos siendo registros "f" y "m" en lugar de "F" y "M" que representan "Femenino" y "Masculino".
+Para resolver dichas inconsistencias, se utilizo una operación de condicional de la siguiente forma:
 
-summary(cars)
+```{R, eval = FALSE}
+# Corregir los valores en la columna de Sexo
+covid$Sexo <- ifelse(covid$Sexo == "f", "F", ifelse(covid$Sexo == "m", "M", covid$Sexo))
+# Corregir los valores en la columna de Nombre.departamento
+covid$Nombre.departamento <- ifelse(covid$Nombre.departamento == "Caldas", "CALDAS", ifelse(covid$Sexo == "Cundinamarca", "CUNDINAMARCA", covid$Nombre.departamento))
+covid$Nombre.departamento <- ifelse(covid$Nombre.departamento == "Putumayo", "PUTUMAYO", ifelse(covid$Sexo == "Santander", "SANTANDER", covid$Nombre.departamento))
+covid$Nombre.departamento <- ifelse(covid$Nombre.departamento == "Tolima", "TOLIMA", covid$Nombre.departamento)
 
 ```
 
+La distribución que se ha explorado considera la relación entre la cantidad de contagios por COVID-19 y la variable sexo que despliega datos como fenemeninos denotado por "F" y masculino por "M". Se observa una tendencia que indica una similitud con una distribución binomial negativa.
 
-# Agregar tablas
-```{R}
-
-knitr::kable(
-  
-  head(cars),
-  caption = "Esto es una tabla"
-  
-)
-
-```
-
-# Agregar figuras
-<!-- dos espacios al final de la linea "  " añade una nueva línea (newlinde, endline) -->
-Hay 3 tipos de figuras:  
-1. La que se genera desde el ambient de R
-
-```{R}
-
-plot(pressure)
-
-```
+![](Distribucion.png)
+Podemos afirmar dicha distribución ya que el valor del sesgo esta dado por 0.03464445 lo que nos indica una inclinación o desviación en la distribución de los datos hacia el extremo derecho. Esto nos indica que en ciertos intervalos de edades encontramos mayor frecuencia de registros. Analizando un poco mas la distribución podemos denotar los outliers como edades muy poco comunes que se extienden hasta la edad maxima de 114 años y su edad minima 1 año, en las cuales podemos calcular un mayor numero de personas en los intervalos de (20,40] años lo que nos puede expresar el pico de esta distribución.
 
 <br>
-<br>
+Haciendo énfasis en el diagrama anterior podemos denotar un diferencia notable de datos del sexo Femenino sobre el sexo Masculino, esto puede ser debido a diferentes factores como: Según el Departamento Administrativo Nacional de Estadística (DANE), Colombia tiene una población de 48,2 millones de personas. Del total de habitantes, el 51,2% son mujeres y el 48,8% son hombres. En 21 zonas del país, las mujeres tienen mayor presencia.
+Esta disparidad entre distribuciones se debe a esto mismo ya que entre los departamentos que tiene mas registros se encuentran la gran mayoria de los departamentos que el DANE menciona en sus estudios.
 
-2. Figuras que están descargadas en mi  
-![Peppino pizza taunting](C:/Users/CENTIC/Música/peppino-taunt.gif){width=50% height=50%} <!-- el ultimo corchete es para ajustar caracteristicas-->
+![](Tabla_Frecuencias.png)
 
-<br>
-<br>
+# Discusión
 
-3. Figuras que están en algún servidor checoslovaco
-![Peppino pizza taunting](https://media.tenor.com/QYJgPxHT1loAAAAC/pizza-tower.gif) <!-- el ultimo corchete es para ajustar caracteristicas-->  
+# Conclusion
 
-
-# Insertando ecuaciones
-El segundo momento estadistico esta dado por: $\sigma^2[X] = E[X^2]-(E[X])^2$  
-
-<br>
-
-La pmf de la distribucion Binomial se escribe como:  
-
-\begin{equation}
-  f (k) = \binom{n}{k} p^k {1-p}^{n-k}
-\end{equation}
-
-# Agregar regla horizontal
- 
- ---
- 
- 
-# Agregando listas con viñetas
-  * Un elemento de lista
-  * Otra elemtno de lista
-    + Un elemento de sublista
-    + Otro elemnto de sublista
+# Referencias
