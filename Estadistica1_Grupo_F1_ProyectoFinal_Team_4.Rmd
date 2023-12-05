@@ -15,6 +15,13 @@ output:
 lang: es-CO
 ---
 
+<style>
+  body {
+  text-align: justify}
+</style>
+<!-- esto es para justificar el texto -->
+
+
 # Introducción
 
 En el contexto desafiante que representa la pandemia de COVID-19, este proyecto de estadística se embarca en un análisis exhaustivo de datos exploratorios para arrojar luz sobre las correlaciones inherentes a la situación en Colombia. La magnitud de esta crisis global ha generado interrogantes cruciales que requieren una evaluación minuciosa. En este sentido, planteamos la siguiente interrogante central: ¿Cómo se correlacionan diversas variables relacionadas con el COVID-19 en el contexto colombiano? De esta pregunta central se desprenden las preguntas que serán respondidas en este análisis de datos exploratorio, las cuales son: 
@@ -34,12 +41,24 @@ La relevancia de este análisis no solo radica en su capacidad para confirmar co
 # Paquetes usados
 En este apartado se listan los paquetes que se necesitan instalar para poder correr el programa correctamente y recrear las simulaciones que el grupo realiza durante la realización de este proyecto. Estos paquetes son:
 
-  *wef: pwoeijr
-  *wer: qweij
+  * ggplot2: Es una poderosa librería de visualización de datos, que sigue el principio de "Grammar of Graphics". Desarrollada por Hadley Wickham, esta librería proporciona una manera elegante y flexible de crear gráficos de alta calidad, ofreciendo una manera intuitiva y poderosa de representar datos en R, facilitando la creación de visualizaciones informativas y estéticamente agradables.
+  
+  * rtools: A pesar de que "Rtools" no es un paquete específico en R; sino, un conjunto de herramientas necesarias para compilar paquetes desde el código fuente en R en entornos Windows, es necesario instalarlo, pues, con este es que se compila el código que se encuentra en el markdown de R, es decir, para compilar paquetes desde el código fuente en Windows, necesitas un conjunto de herramientas que proporcionen un entorno de compilación adecuado. En el contexto de R en Windows, este conjunto de herramientas es comúnmente conocido como "Rtools"
   
 
-# Metodología
+# Metodología y resultados
 Esta sección se dividirá en sub-preguntas que serán respondidas de manera consecutiva a lo largo de la sección de metodología.
+
+## esd
+
+
+
+
+  
+## esd
+  
+## esd
+
 
 ## ¿Cómo ha afectado la implementación de programas de vacunación a la tasa de contagio?
 
@@ -49,15 +68,67 @@ En este *dataset* que muestra información sobre salud y protección social expl
 
 Este conjunto de datos, más que meras cifras y fechas, es un tapiz que teje las adversidades de ciudades y pueblos, personas y comunidades, en su enfrentamiento contra la trágica pandemia que acarreó el COVID-19. En nuestro análisis, nos embarcamos en un análisis que descubre la realidad cotidiana, con la esperanza de que este conocimiento no solo informe, sino que inspire acciones y decisiones fundamentadas en el enfrentamiento continuo contra el remanente de la pandemia y/o futuras pandemias.
 
-## esd
-  
-## esd
-  
-## esd
+Primero, se importan los datos (Paso ya explicado en la primera pregunta de este apartado), tras esto, se instlan las librerías para graficar los datos, pero, lo más importante es que se seleccione como argumento de la función "*read.csv("")*" la ruta donde se guardó el dataset. Por defecto, tiene la ubicación de la carpeta que se encuentra en mi equipo, así que requiere de cambiarse, antes de poder ejecutar el siguiente código.
+
+```{r Código para responder pregunta 4, echo=TRUE}
+
+install.packages("ggplot2")
+install.packages("rtools")
+library(ggplot2)
+file.choose()
+covid=read.csv("E:/De Felipe/UIS/SEMESTRE #6/ESTADÍSTICA I/Proyecto Final/placholder_github/DataSet/Casos_positivos_de_COVID-19_en_Colombia")
+View(covid)
+
+# Filtrar por género (Femenino y Masculino)
+casos_femenino <- covid[covid$Sexo == "F", "Edad"]
+casos_masculino <- covid[covid$Sexo == "M", "Edad"]
+
+# Contar el número de casos por edad para cada género
+conteo_edad_femenino <- table(casos_femenino)
+conteo_edad_masculino <- table(casos_masculino)
+
+# Crear un dataframe para usar en ggplot
+data_femenino <- data.frame(
+  Edad = as.numeric(names(conteo_edad_femenino)),
+  Femenino = as.numeric(conteo_edad_femenino)
+)
+
+data_masculino <- data.frame(
+  Edad = as.numeric(names(conteo_edad_masculino)),
+  Masculino = as.numeric(conteo_edad_masculino)
+)
+
+# Unir los datos
+merged_data <- merge(data_femenino, data_masculino, by = "Edad", all = TRUE)
+
+# Gráfico de barras apiladas por edad y género
+ggplot(merged_data, aes(x = Edad)) +
+  geom_bar(aes(y = Femenino, fill = "Femenino"), stat = "identity") +
+  geom_bar(aes(y = Masculino, fill = "Masculino"), stat = "identity") +
+  labs(title = "Distribución de Casos de COVID-19 por Edad y Sexo",
+       x = "Edad",
+       y = "Cantidad de Casos") +
+  scale_fill_manual(values = c("Femenino" = "skyblue", "Masculino" = "salmon")) +
+  theme_minimal()
+
+# Contar los valores únicos en la columna de sexo
+conteo_sexo <- table(covid$Fecha.de.muerte)
+
+# Mostrar los valores únicos y su frecuencia
+print(conteo_sexo)
+
+```
+
+
+# Discusión
+
+# Conclusión
 
 
 # Referencias
   1. Coronavirus. (s. f.). Who.int. Recuperado 4 de diciembre de 2023, de https://www.who.int/es/health-topics/coronavirus
+
+  2. Instituto Nacional de Salud. (2020). Casos positivos de COVID-19 en Colombia [Data set].
 
 
  <!--
