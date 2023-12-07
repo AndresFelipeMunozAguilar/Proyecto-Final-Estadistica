@@ -70,22 +70,48 @@ Este conjunto de datos, más que meras cifras y fechas, es un tapiz que teje las
 
 Primero, se importan los datos (Paso ya explicado en la primera pregunta de este apartado), tras esto, se instlan las librerías para graficar los datos, pero, lo más importante es que se seleccione como argumento de la función "*read.csv("")*" la ruta donde se guardó el dataset. Por defecto, tiene la ubicación de la carpeta que se encuentra en mi equipo, así que requiere de cambiarse, antes de poder ejecutar el siguiente código.
 
-```{r Código para responder pregunta 4, echo=TRUE}
+```{r Código para responder pregunta 4, eval=FALSE}
 
+# Instalar y cargar las librerías necesarias si no las tienes instaladas
+
+install.packages("dplyr")
+install.packages("lubridate")
 install.packages("ggplot2")
-install.packages("rtools")
+
+library(dplyr)
+library(lubridate)
 library(ggplot2)
-file.choose()
-covid=read.csv("E:/De Felipe/UIS/SEMESTRE #6/ESTADÍSTICA I/Proyecto Final/placholder_github/DataSet/Casos_positivos_de_COVID-19_en_Colombia")
+
+covid <- read.csv( file.choose() );
 View(covid)
 
+
+
 # Filtrar por género (Femenino y Masculino)
-casos_femenino <- covid[covid$Sexo == "F", "Edad"]
-casos_masculino <- covid[covid$Sexo == "M", "Edad"]
+casos_femenino <-  covid[(covid$Sexo == "F") & ( (as.Date( covid$Fecha.de.inicio.de.síntomas, "%Y-%m-%d" )) < (as.Date('20-02-2021', "%d-%m-%Y")) ), "Edad" ] ;
+
+casos_femenino_sin_NA <- na.omit(  casos_femenino );
+
+casos_femenino_sin_NA <- as.vector( casos_femenino_sin_NA );
+
+# as.Date() es una función que convierte un string en un objeto tipo fecha
+# funciona con dos argumentos: "2020-12-30" el string de la fecha
+# y "%Y-%m-%d" el formato que, en este caso, indica que primero va el año
+# luego una raya, luego el mes, luego una raya y, finalmente, el día
+
+
+casos_masculino <-  covid[(covid$Sexo == "M") & ( (as.Date( covid$Fecha.de.inicio.de.síntomas, "%Y-%m-%d" )) < (as.Date('20-02-2021', "%d-%m-%Y")) ), "Edad" ] ;
+
+casos_masculino_sin_NA <- na.omit(  casos_masculino );
+
+casos_masculino_sin_NA <- as.vector( casos_masculino_sin_NA );
+
+
 
 # Contar el número de casos por edad para cada género
-conteo_edad_femenino <- table(casos_femenino)
-conteo_edad_masculino <- table(casos_masculino)
+conteo_edad_femenino <- table(casos_femenino_sin_NA)
+conteo_edad_masculino <- table(casos_masculino_sin_NA)
+
 
 # Crear un dataframe para usar en ggplot
 data_femenino <- data.frame(
@@ -117,7 +143,11 @@ conteo_sexo <- table(covid$Fecha.de.muerte)
 # Mostrar los valores únicos y su frecuencia
 print(conteo_sexo)
 
+
+
 ```
+![Gráfica de contagios por edad y sexo antes de la vacunación](images/infectado_por_edad_antes_de_vacunación.jpeg)
+
 
 
 # Discusión
