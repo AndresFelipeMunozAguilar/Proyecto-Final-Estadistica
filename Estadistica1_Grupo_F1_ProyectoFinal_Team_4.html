@@ -1684,7 +1684,7 @@ conversión entre diferentes formatos de fecha y hora.</p></li>
 </ul>
 </div>
 <div id="metodología-y-resultados" class="section level1">
-<h1>Metodología y resultados</h1>
+<h1>Metodología y Resultados</h1>
 <p>En este análisis epidemiológico, nos sumergimos en un vasto océano de
 datos recopilados por el Instituto Nacional de Salud en Colombia desde
 el 27 de marzo de 2020 hasta el 29 de noviembre de 2023. Esta preciada
@@ -1972,8 +1972,9 @@ ggplot(covid, aes(x = Nombre.departamento, fill = Recuperado)) +
        y = &quot;Cantidad de Casos&quot;) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotar las etiquetas del eje x para mayor legibilidad</code></pre>
-<p>Teniendo en cuenta el texto y gráficas anteriores se puede afirmar
-que si, primero que todo es tener en cuenta que la mayoria de adultos
+<p>Teniendo en cuenta el texto y gráficas anteriores (Que se pueden
+revisar poinendo “eval=TRUE” en el chunk de código) se puede afirmar que
+si, primero que todo es tener en cuenta que la mayoria de adultos
 mayores se encuentran entre los 60 y 80 años, por lo que se observa en
 la grafica, la mayor cantidad de fallecidos se encuentra cerca
 aproximademente de los 80, mientras que la mayoria de personas en estado
@@ -2007,17 +2008,20 @@ cualquier máquina, debido a que, antes de leer el dataset, el usuario
 tiene que seleccionar la ubicación donde esté guardado el archivo,
 permitiendo que se encuentre en distintas carpetas, en distintos
 dispositivos y que, aun así, se lea el dataset exitósamente.</p>
-<p>Segundo, debido a que la diferencia temporal entre el inicio de la
-vacuncación masiva (21 de febrero del 2021 para colombia, según el
-ministerio de salud [Ver referencias]) y la primera fecha de inicio de
-síntomas del paciente más antiguo es distinta de la diferencia temporal
-entre el inicio de la vacunación masiva y la última fecha de inicio de
-síntomas del paciente más reciente, se deben evaluar los datos sobre un
-mismo período de tiempo, pues, si no se hiciera esto, al evaluar los
-contagios antes del inicio de la vacunación masiva siempre saldrían
-menos contagios, debido a que hay muchos más casos después del inicio de
-la fecha de vacunación masiva y esto es porque ha habido mucho más
-tiempo para recolectar datos después de la fecha de inicio de vacunación
+<p>Segundo, para llegar a una respuesta de esta pregunta, se deben
+analizar las graficas de contagio antes de la llegada de la vacunacion
+masiva y después de la llegada de la vacunacion masiva, sin embargo,
+debido a que la diferencia temporal entre el inicio de la vacuncación
+masiva (21 de febrero del 2021 para colombia, según el ministerio de
+salud [Ver referencias]) y la primera fecha de inicio de síntomas del
+paciente más antiguo es distinta de la diferencia temporal entre el
+inicio de la vacunación masiva y la última fecha de inicio de síntomas
+del paciente más reciente, se deben evaluar los datos sobre un mismo
+período de tiempo, pues, si no se hiciera esto, al evaluar los contagios
+antes del inicio de la vacunación masiva siempre saldrían menos
+contagios, debido a que hay muchos más casos después del inicio de la
+fecha de vacunación masiva y esto es porque ha habido mucho más tiempo
+para recolectar datos después de la fecha de inicio de vacunación
 masiva. Para este dataset, la fecha de inicio de síntomas más temprana
 es del 27 de febrero del 2020, lo que quiere decir que, entre esta fecha
 y el inicio de la vacunación masiva han pasado 359 días. Entonces, para
@@ -2053,6 +2057,8 @@ print( aux1 );</code></pre>
 <pre><code>## [1] &quot;La cantidad de días que hay entre la fecha de sintomas mas antigua y el inicio de la vacunacion masiva es:  359&quot;</code></pre>
 <pre class="r"><code>print( aux2 )</code></pre>
 <pre><code>## [1] &quot;La cantidad de días que hay entre el inicio de la vacunacion masiva y el 14 de febrero del 2022 es:  359&quot;</code></pre>
+<p>Ahora, teniendo en cuenta esto, se pueden ejecutar estos dos chunks
+de código siguientes:</p>
 <pre class="r"><code># Instalar y cargar las librerías necesarias si no las tienes instaladas
 
 install.packages(&quot;dplyr&quot;)
@@ -2128,13 +2134,133 @@ print(conteo_sexo)</code></pre>
 <div class="figcaption">Gráfica de contagios por edad y sexo antes de la
 vacunación</div>
 </div>
+<pre class="r"><code># Instalar y cargar las librerC-as necesarias si no las tienes instaladas
+
+install.packages(&quot;dplyr&quot;)
+install.packages(&quot;lubridate&quot;)
+install.packages(&quot;ggplot2&quot;)
+
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+covid &lt;- read.csv( file.choose() );
+View(covid)
+
+
+
+# Filtrar por gC)nero (Femenino y Masculino)
+casos_femenino &lt;-  covid[(covid$Sexo == &quot;F&quot;) &amp; ( (as.Date( covid$Fecha.de.inicio.de.síntomas, &quot;%Y-%m-%d&quot; )) &gt;= (as.Date(&#39;20-02-2021&#39;, &quot;%d-%m-%Y&quot;)) ) &amp; ( (as.Date( covid$Fecha.de.inicio.de.síntomas, &quot;%Y-%m-%d&quot; )) &lt; (as.Date(&#39;14-02-2022&#39;, &quot;%d-%m-%Y&quot;)) ), &quot;Edad&quot; ] ;
+
+casos_femenino_sin_NA &lt;- na.omit(  casos_femenino );
+
+casos_femenino_sin_NA &lt;- as.vector( casos_femenino_sin_NA );
+
+# as.Date() es una funciC3n que convierte un string en un objeto tipo fecha
+# funciona con dos argumentos: &quot;2020-12-30&quot; el string de la fecha
+# y &quot;%Y-%m-%d&quot; el formato que, en este caso, indica que primero va el aC1o
+# luego una raya, luego el mes, luego una raya y, finalmente, el dC-a
+
+
+casos_masculino &lt;-  covid[(covid$Sexo == &quot;M&quot;) &amp; ( (as.Date( covid$Fecha.de.inicio.de.síntomas, &quot;%Y-%m-%d&quot; )) &gt;= (as.Date(&#39;20-02-2021&#39;, &quot;%d-%m-%Y&quot;)) ) &amp; ( (as.Date( covid$Fecha.de.inicio.de.síntomas, &quot;%Y-%m-%d&quot; )) &lt; (as.Date(&#39;14-02-2022&#39;, &quot;%d-%m-%Y&quot;)) ), &quot;Edad&quot; ] ;
+
+casos_masculino_sin_NA &lt;- na.omit(  casos_masculino );
+
+casos_masculino_sin_NA &lt;- as.vector( casos_masculino_sin_NA );
+
+
+
+# Contar el nC:mero de casos por edad para cada gC)nero
+conteo_edad_femenino &lt;- table(casos_femenino_sin_NA)
+conteo_edad_masculino &lt;- table(casos_masculino_sin_NA)
+
+
+# Crear un dataframe para usar en ggplot
+data_femenino &lt;- data.frame(
+  Edad = as.numeric(names(conteo_edad_femenino)),
+  Femenino = as.numeric(conteo_edad_femenino)
+)
+
+data_masculino &lt;- data.frame(
+  Edad = as.numeric(names(conteo_edad_masculino)),
+  Masculino = as.numeric(conteo_edad_masculino)
+)
+
+# Unir los datos
+merged_data &lt;- merge(data_femenino, data_masculino, by = &quot;Edad&quot;, all = TRUE)
+
+# GrC!fico de barras apiladas por edad y gC)nero
+ggplot(merged_data, aes(x = Edad)) +
+  geom_bar(aes(y = Femenino, fill = &quot;Femenino&quot;), stat = &quot;identity&quot;) +
+  geom_bar(aes(y = Masculino, fill = &quot;Masculino&quot;), stat = &quot;identity&quot;) +
+  labs(title = &quot;Distribucion de Casos de COVID-19 por Edad y Sexo&quot;,
+       x = &quot;Edad&quot;,
+       y = &quot;Cantidad de Casos&quot;) +
+  scale_fill_manual(values = c(&quot;Femenino&quot; = &quot;skyblue&quot;, &quot;Masculino&quot; = &quot;salmon&quot;)) +
+  theme_minimal()
+
+# Contar los valores C:nicos en la columna de sexo
+conteo_sexo &lt;- table(covid$Fecha.de.muerte)
+
+# Mostrar los valores C:nicos y su frecuencia
+print(conteo_sexo)</code></pre>
+<div class="float">
+<img src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAhIAAAE3CAMAAADIaliVAAABYlBMVEUAAAAAADoAAGYAOjoAOmYAOpAAZpAAZrY6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZmY6ZpA6ZrY6kJA6kLY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmAGZmOgBmOjpmOmZmZjpmZmZmZrZmkJBmkLZmkNtmtpBmtrZmtttmtv9uTU1uTW5uTY5ubo5ubqtuq8huq+SHzuuOTU2OTW6OTY6Obk2ObquOyP+QOgCQOjqQOmaQZgCQZjqQZmaQZpCQZraQkGaQkLaQtpCQtraQttuQ27aQ2/+rbk2rbm6rjk2ryKur5OSr5P+2ZgC2Zjq2kDq2kGa2tma2tpC2ttu225C229u22/+2/7a2/9u2///Ijk3I///bkDrbkGbbtmbbtpDb25Db27bb29vb2//b/7bb/9vb///kq27k///r6+v6gHL/tmb/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T////4eexRAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAU+0lEQVR4nO2dC5vbxnWGQV1KSkltqSHllLGSpm1ar9ImWifNbmq3cVKHTlPRbtNYtSTazsVeZUHRWYrC/+/cAAyG4HAAnBmA4Pc9tkhgD8/cXswNA0yUQFBBUdsRgLomIAEZAhKQISABGQISkCEgARkCEpAhIAEZIkFiEQn95WP2fXN+8yL/y+o7T9Q3fn49He52UvzhDpOy32/++2tRdP2talF2digP/p5FbT1VEdycX/uER1ZPtqa59Pn5/Si6sy9FqZSrKErjUxaz8tgW4kghSiSi6MQs2cU170isRjLsu1Vj7eTwq/vy4MZjnswTYcCSsdGQiNRppYUs1qX4S5b8PWqExOZc/nZv/rmJBgmR8s2no8Gs9C+prEg4qCxP1tPo7h+T5Hf3iwVD5JDl9h0Gw1fv8vxejaT1MjqRSJQke/OhLNb1dMCqmc9HjglemOxUQWIZ3eRxPK+TAyUiRILHbSwv9s27UcSyROA7ZilZRNc+lrXEciQuOFklyDR+xk7N0lP8qlQGv/laNPheFga3+ljYc5O8sl6wMLlWI/7zz1gNKn6kYpDkHrVT7g7TA/llLtPJPjQkZLKVGAn/ILhfjcZ6zqyn46VMpp5Eni+PCzloxCxLjnZOBHgifaq4SSTlBZcmRkRYxCzLAEeRIsEzSv4v69MUieuj6OaXAonrvFJmKdCQEDVsemo5yo6KdbKoWW/cH6b1enphsnZdZeYfkqz+PUl/zn5teqzkMD8QHQlZ9jzrC0hoTd76Z6p1TJFQbtfT11XK9QjxfLko5GAxZllytHNJkhb+Mo2yhmSeGB719ZS5XRaS5yBSJNLrZzW6q6pZ/hdWFuO0LxF942LzUTTUkNics9h+pqoXZvoWT7/4NrxI22Vx9b3Pq0Zhr9fIhbaIZcPjRAScxSD3mEfK3aF2MBcp4bFeCuQ0JNLaQ/+N8M+8Zkiw5KiUa0nMijLtSzBzPWZpcvJzWoDzDMQPo8Hr//FHmQNZYpbRcCEvDhWea2l6QuL6332c/UVeahIJCYKqeAUS6nKSBqrE5oOZ/FFWJNJKFrZRIxfb1z/85t9GEbdSMcg95pFyd2ggIS/6BW8Z9yGRFnKGhCgSZmgmUeVgjkQeMz052rlEUpm1G0y/f3ckG0U9MXPRq8nDM0ttl7wgwWMTiX7ZIru2JBJpbaojoapyiYQ4WOoGQrL15IfLyMhrHQk1WBgmWQxyj3mk3B2aSPAEbM5VnVdItijTsf4b1voP3loUvS44mcUkGjmoxyxPjnYuc7csFvLm82+z8PXErEby3ywDHOWlLyEH5XwE5h2J/FL79M5jVj2//vP//UJkv4qBniNppNwdGn0JeZnfmhlI8INtJITmxbqnGhJ5ckwkuN+52RRwf3pilqIX0jIS2YiD6/fvsBiZSAwTlenztF3Y2XAUkJBW0r441ErHBLwrJf+W1a88Bka9KSLl7tAYcYgMXqSpKRtxJEUkstmtvMk0k1jMwZKY5Y2b5nkZ/WPWbmSBzLMrQJ6+cZ95bbXhYAN0BcCS9SKTzUcsFgttdCG6l4yZj2TF/j3e81Hdy9U0G6pkfa8CEmKYn9q/zwfh+eWbTiOMefIv+JhLi0HuMY+Uu8PivARP4/lfvDNOCkjIZOfKuH/MO4TjzOk3truXpUjkMcuTk59T2px/PS/juYjj5rMR95klhmW9vETb6V6mc28naeORzqYtxCA0R0IMxXjyl9moapmNG4uD0AISW/b5hZlONg71abw8BuYgNM0aJ4esgLTZS/kzURSW2ctC9zINTQ2/RcqLSTRykI8a05hps5J5bLMf6BAVWguZGDncam8QKmN0J7vHIWaF7l6IHB1+qfclWARfE7n76Si682U6VcU7yzKHVvlUVQEJ3hG48Yk45Cb6LY2veHf7ej4t9b4YL6YxyDxqp9wdbt0/ULW0hsTgTnEaSO9e3s1/xifppGUxiXoOKmiymOXJ0WIrtdLnRUUcB7l3Hve57FsOtQxwFO6EBlHTqfwtLYlmr0sEJIKIGomv7hPd4yoRkAgiWiR452G836ymgEQQ0SLB+p11lgI4CkhAhoAEZAhIQIaABGQISECGgARkiB6JS2pDcod9CtmDgMRhh+xBQOKwQ/YgIHHYIXsQkDjskD0ISBx2yB4EJA47ZA8CEocdsgcBicMO2YOAxGGH7EFA4rBD9iAKJC696PSU/8c/T/0E0GkRFEtddbSWOOWS//IvAUP26vBoaomiPCDhCAWQIBGQCOkQSNQ3BBLtCUiEdAgk6huaSDhRASRIBCRCOgQSdQ1TCIBEGwISIR0CibqGQAJIGAISQMIQkAAShoAEkDAEJICEISABJAyVIiGpsKEBJEjUPSRyFMqR2F1hAAkSAQkCOyBhF5AIGbIHWZF49cFZkrx8e/LNP+34KBOQCBmyB1mReD45E1g8/+vyj1IBiZAhe5ANiat//pez5OWPnyVX//Ss9KP0Vx6RSE9Vc1jfEEgYevWr/2KVwdUP/pS8/NGj0g9lSLtcXSzWF7rcRkKekla9VpDCL5cFiecPefvw4pui9Es/Sn8WppYoqypQS5BoNxKsJnjlVksUFQqJ7QYESJBoNxLPJ1wPu9iX2NGnABIk2jsIffXBQznGKPkoVUAkDCqABIkOal4CSITQQc1eAokQAhIEdkDCrrBI6FAACRJ1DIld5Q4kwglIENgBCbuARMiQPaj7SMRxDCRCquNIxEJAIqQOAokcCiDhX51GIo6BRHgdCBIpFUDCv3qAREYFkCBRd5GIYyDRioAEgR2QsKt+9hT7kCYSggog4V8dRUIQACRaUQGJ9fRkPY2uPWnk0TcSBTSABL0KSMyHyeLak8WwkUe/SBi1BZCgl44EqyQ258NkWbWaoHp2IS3kS4XE5TYSl+lnjkQ/H+kgLeRqMpBYT8fVkSjKYy2RnkIt4VM6Epvz8XIw481HExEgUSj/XUjE+bi0ccgN7fqLRLIaRcNkfvOikccASLBPIOFNnRyEOiChagsgQS8gQWDXZyQWEdO4mceASMR5T7NZyA3teozEgo81+KCjiYBEyJA9yBiE8o/2B6FAAkhwaTMNFZAQgw8gQanuNBxAoo5DD+pO9zIForTc9yLBoQASJOrOIBRI1HHoQUDCQ1IChuxB3VkvASTqOPSg7qyXABJ1HHoQxXqJooBEyJA9qDvrJYBEHYce1J31EkCijkMP6s56idpIbN0RJYsikKARkAgZsgdZkHgxmbzxLNx7L4FEHYceZDYcXLJ7yV+IvGsjDh/7cQCJOg49yOhebs5P1P1QoV0vz/bxDm0gUcehB5k3x+dsEJr3L1lNEGw/DsVDnD+/sfUcR+mfLhUS/XqeIywFBZlILLSpqqsH9x6F248jR6J2LXHqWFGglrDJnNBmPCzyWmJX9eBjPw4gUcehBxWQYJ2JZB4NZvmZp2dh+xJAoqJDD9o9CFWNQ7D9OICEg90iGvzi1mwl/nMNs6pse3tNJqwvEWZeQnvvaTMkJBV70DhYJNRoMBgSIrzNecP57DaQiAtPDif9RUKBEAqJ1Uguupy3sYQGSLjY8anE4Spcw5HdAG3jTiglEvtnrQ4VCVFLhEMin7RsY70EkHCyOzokLOVeGQnr4ANI2JQhweckpBbNOpjtIJEvpQESDZX3JRaqcsjZqKfOILEbCiBhkzYInYtpy/W0jVVVnpDYQQWQsEmfqhLLJQZNgwISBIZdQYJG3UKitPk4WCSCqDtIWMsdSITTESCxzQWQsKlHSDhu91QhikCCRkCCwBBIAIm6Dj1o6y00Jw0nL7uKhE4FkLCpuPby5hfy4fEm6iwSeV0BJGzaenL8pJXNF9JtFYQqL9pPP9PyvzQ+s68EMQ0k0kKuJgokikItQWC4w+60VK6BO6r4kkPecIR/yaFMFwESsXWfQCDhpmL3ctnKSw6BhKtdC0hQCEgQGAIJOiTi3VtHAgk3aQvtolShu5f0SJiPdhiraoCETWXv0D5p5LF1JPLBB5Cooy68aR9IuNodExL7ChlICNmRkC8R2jtgXN22l28XNl8AEq52e5DYU9aOKpmXaNaV6AgScemjHer2V8+RkO9B3/z0PVZlLEW1Ic+sXnuHly4zU9+S0jemd2QQCiSc7NyQmI/5y4T47cvVaCjOyjP8qd/lzQuOhPxmvIZKCUiQJoXKsH5fYpisvzVL1m8+2fx0lvD/2aE6w+HgPNxOv7FzwrqoHiMRV1mhS5QUKsMmtYSYYRrMdCTkmS0k+Ac3KQpIkCaFyrAREm+KDx0JeQa1hOV+ubekUBk27UuwHoKGhDqzhcTR9SUsd8K8JYXKsOmIYzDTawl1ZhsJ+4ij3XscPpGIt++EeUsKlWFXZi9bvMcBJJzsgiPRpwltOxKO+QgkDCSuHkwmZyFecggkXO1aazjkPQ7+QuSr7z8KsPmCfyRKbntUimFwQ2eHHrT7HscLXuQBXphsvLPMHxKx+SpE1xi2YNgdJEy5vVa92RMLxo4LcYPnOPae0h7toHncwpvKy2M7QwTutLIiwV+V7X3zhZC1RHFC0zWGLRh2BonCRk68D/kwcdmipSggQWDYFSSMjZyuHrDxRtKrvgSQcNDujZwkEeW7LlBuvgAk3O1aQSLfyOn5hOvM+7xEYCS0O2GuMWzBsCtIbG/kVEdAgsCwM0hsb+RUQ4eDxF4qgASNOo9E7Lyx6IEhwVda7ttPRd0ZtwlIECaFzrAeErfuXCTrb1tL3GFhf/vrJYCEu90eJG7/zSxZfZcvjxmJ+xJLWZZiAU1h/Yz7ov1W1ksACXe7fUj8z0ny6S9uP+ELqdTSSrF6/yRZ3vxdAQnXRfvtrJdoE4k9446DQ+K3dzf/+ttsUa5aaSvbimIt4boc93iQiPObopRJoTOsicQn//7F3woC5qLJYO0HX3L52kVSjoTDov3wz4SengKJCnb7kHjy4XtjfvVPT9J+pFqYXbeWaOGZUCBRyW4vEkvRjxQlfmvGuwl89f45B+T/WNGzS777i/bz90oACQe7vUio4l5E0Y37J6r5UEv22bm/etNAoouPCQOJSnZ2JIikbwqZTk0E7F4CiUp2YZEg04EgEWf3yYmSQmrYFSRaGIQCiUp2QAJItCFt69jsHkfAzReAREOHHlRSS1RWg7Xp+aYLQRbtF091efk+TenWErqXqCUM2Rbt15N79sgCaQ+J9PYXQVKoDbuCRNMtnKSABIFhV5BoulJCqhISrsXnFYmdVAAJfn+kuQ4JiVjNYjZOCrVhV5BoOiMhBSQIDLuCROh7HECiuUMPam0QKgeAHUFiRycTSNAISBAYdgaJkPMSQILEoQdZXiZQU+5IVCg+IBFOu18mUFcHikQZFUCi+DKBujowJOIYSBTV0ssEVEcCSDR16EEtvUxA8QAkmjr0oJYGoUCCyKEHAQkgYUhDQow+N+fNehKHiMTOdxUdOxL8AXMu+1tM9sspNVWLD0iEU47EfGh+qaf9qTnds5s0kOgGEvmkZT4vId52Sv+SwxrFFwgJgwogob5lSLyYvPGsfNeF2psvxHHSRSTi8oriyJHgcxJS6VTV03u/ZrUE7QuTgQSxQw/SHu1RlUPOhih12s0X4lj+kxdMi89xmKdSKnw9m1FFQSEoShuEzsW05Xqaj0I5ErSbL+y7VnedqmZd89RWRXHstYRaLqFPZzvWEkXxi25ncJ1GIoUiT4prLvYWiS1d1epLHDwSGRRAYku81KtvvrATiQZlBSTCaS8S1eclypFoVlaBkIiLD4ABCRr1AglJBZCgURkSFGUVCIlYe7QDSNAISBAYAoluIRHHQIJUPUGC9yiABI2ABIFh/5CIcyqIy4qw/O3B7HzepzTN1IZAokpZkZU/kCiXXyR8lBWZz73BAAkiXVqyHEhQO/QgIGFFwpEKIGFVf5CIYyBBop4h4dTJBBJW9QqJrVU1O9LsnDnEdj4EJICEISDhhMQeKICEVT1DInaZtQISVvUPiXjveBRIGDIeQUizkfKZCx8+qwRzenoZ9hEPgmKpK9QSrsHYmg/UElb1FQlbnwJIWNVfJOKdtz2AhFV9R6KMCiBhVa+RiMtvewAJq/qPRIDX1QAJkrIKFkyAF1EACaKyChTM9hw3kLCq/0jEW+NRIGHVUSARFwcfQMKqY0FC72kCCauAhC1ziO18CEg0CkZBASSsOiokYjnHDSSsOjYkYudFuwmQaL+sggUDJGw6SiRiRyqARCfKKlww+6EAEl0pq3DBEK3bPUAk9rzksINlFSwYawPSXySsmy90tazCBbN7PXd/kdj3wuSullXgYOovrDg8JGpvvgA5iq6EK6seErU3X6hjeAAvEcPsZWLdfMHVSY8KBkjY+xKuTnpUMEDCvvmCq5MeFQyQaLgpZEXDAygYIGHVMRYMkLDqGAsGSFh1jAUDJKw6xoIBElYdY8EACajPAhKQISABGQISkCEgARkCEpAhIAEZAhKQISABGSJGwnLTvIZeTCZvPCN1+uqDyb1HlB6vHpBGUaxLYj4nZ9R56S5aJGyL+auL5w/zRun06RlfN0rn8eXbzBOdwxecL76C8er7j2jzsoJokbAtwKsn5o3QKXeVUEZTLUIlcvj03q+Zkxecg6dn9HnpKFokbMt064ldJ4ROr37wn7zhoPOoPJE5TBmg9FlVtEjYFvPX0dUDVoCETq8enPFSpPMoGo57j8gcKiT42lbqvHRW12sJ2suF+qIWXcEf/oq6lnj59kMfeemorvclaBvVlz+hbPpTpz+m6+6oEcdZ4iUv3UQ94ti9mL+6VNVJ6fSpaDjoPPLLWAyKiBxyBiQRxHlZQZ2el3g+IZ5F4K5oZzpeTIQnynkJluoJn5jox7wE1AMBCcgQkIAMAQnIEJCADAEJyFCvkdicR0LXnojDpfpMZR5DQj1HYqwfAgknAQnI0LEgsZ5Gg/cYAqsRa0jG+TG0pSNBYj0ds/+vPVlPT5JkwT/lcavR66h6joTsXo5lG8FQ+PMFO726NUuP245hF9VzJNJaYnGTsbC6zRBYMkQGs/wYMnVkSKyngxmvJYDEbh0JEqKhYP8sOQrLwSw9bjV6HdWRILGeDkV3cskridFglh63Gr2OqudIyO4l4yAddM7Z0S/ZsAOD0J3qNRJQHQEJyBCQgAwBCcgQkIAMAQnIEJCADAEJyBCQgAwBCcjQ/wNrN5wuEqz2LwAAAABJRU5ErkJggg==" alt="Gráfica de contagios por edad y sexo antes de la vacunación" />
+<div class="figcaption">Gráfica de contagios por edad y sexo antes de la
+vacunación</div>
 </div>
+<p>Lo que se hace con estos códigos es lo siguiente: Se tiene en cuenta
+que todas las personas que se encuentran en ese dataset están
+contagiados, pues, todos tienen un valor distinto de cero en la columna
+“Fecha.de.inicio.de.síntomas”. Teniendo esto en cuenta, simplemente
+cogemos la columna de edad y la guardamos en un vector. En este vector
+se cuenta cuantas veces aparece cada edad y se hace una gráfica donde la
+variable independiente es la edad de los pacientes y la variable
+dependiente es la cantidad de pacientes que poseen esa edad. Esto se
+hace por sexo, es decir, uno por masculino y otro por femenino. Como se
+puede observar en la gráfica, esta es más leptocurtic, es decir, más es
+más angosta, pero, llega más alto, debido a que nos encontrabamos en
+pleno pico de la pandemia, por lo tanto, el numero de casos aumentó
+exponencialmente, decretando un estado de emergencia sanitaria que puso
+a los servicios sanitarios de Colombia a máxima capacidad. Este pico fue
+a finales de agosto del 2021 (Según el apartado 4 de referencias). Aún
+así, se puede confiar en la efectividad de la vacunación, pues, como
+afirma el apartado 5 de las referencias “La proporción de casos de
+COVID-19 entre personas de ≥50 años y &lt;50 años disminuyó
+significativamente (…) Colombia, 20,8% (IC 95%: 20,6 a 21,1%)”,
+reduciendo ampliamente la morbilidad de los pacientes de covid.</p>
 </div>
-<div id="discusión" class="section level1">
-<h1>Discusión</h1>
 </div>
 <div id="conclusión" class="section level1">
 <h1>Conclusión</h1>
+<p>La realización de un proyecto de estadística sobre la mortalidad y
+otros aspectos del COVID-19 proporciona una valiosa oportunidad para
+explorar y comprender la complejidad de las repercusiones de esta
+pandemia a través de una lente numérica y analítica. Al abordar la
+mortalidad, es esencial no solo cuantificar la magnitud de las pérdidas,
+sino también considerar las variables que pueden influir en los
+resultados, como la edad, el género, y las condiciones de salud
+preexistentes. Este análisis puede revelar patrones significativos que
+contribuyan a una comprensión más profunda de los factores de riesgo y
+las poblaciones más vulnerables.</p>
+<p>Además de la mortalidad, la estadística también puede arrojar luz
+sobre otros aspectos críticos de la pandemia, como la propagación del
+virus, la eficacia de las medidas de mitigación y la distribución
+geográfica de los casos. La comparación de tasas de incidencia entre
+regiones puede proporcionar información valiosa para la toma de
+decisiones y la asignación de recursos.</p>
+<p>Es crucial no perder de vista el contexto social, económico y de
+salud pública al interpretar los resultados estadísticos. Las
+discusiones deben abordar las implicaciones éticas y sociales de las
+medidas adoptadas, así como la equidad en el acceso a la atención médica
+y la distribución de las vacunas. La colaboración interdisciplinaria
+entre expertos en estadística, salud pública y ética puede enriquecer
+las interpretaciones y las recomendaciones resultantes.</p>
+<p>En última instancia, un proyecto de estadística sobre el COVID-19 no
+solo busca cuantificar la magnitud de los desafíos que enfrentamos, sino
+también orientar las respuestas y las políticas de salud pública de
+manera informada y efectiva, con la esperanza de contribuir a la
+mitigación y prevención de futuras crisis sanitarias.</p>
 </div>
 <div id="referencias" class="section level1">
 <h1>Referencias</h1>
@@ -2146,6 +2272,12 @@ en Colombia [Data set].</p></li>
 <li><p>de Colombia, M. de S. y. P. S. (s. f.). Colombia comenzará la
 vacunación contra el covid-19 el 20 de febrero. Gov.co. Recuperado 7 de
 diciembre de 2023, de <a href="https://www.minsalud.gov.co/Paginas/Colombia-comenzara-la-vacunacion-contra-el-covid-19-el-20-de-febrero-.aspx" class="uri">https://www.minsalud.gov.co/Paginas/Colombia-comenzara-la-vacunacion-contra-el-covid-19-el-20-de-febrero-.aspx</a></p></li>
+<li><p>Chaves Castro, Á. H. (2021). Análisis sobre la evolución del
+COVID-19 en Colombia: ¿se alcanzará el pico de contagio? Tiempo y
+economía, 8(1), 123–160. <a href="https://doi.org/10.21789/24222704.1672" class="uri">https://doi.org/10.21789/24222704.1672</a></p></li>
+<li><p>Sep, 1. (s/f). Impacto temprano de la vacunación contra la
+COVID-19 en poblaciones de edad avanzada en cuatro países de las
+Américas, 2021. Paho.org. Recuperado el 7 de diciembre de 2023, de <a href="https://www.paho.org/es/noticias/1-9-2023-impacto-temprano-vacunacion-contra-covid-19-poblaciones-edad-avanzada-cuatro" class="uri">https://www.paho.org/es/noticias/1-9-2023-impacto-temprano-vacunacion-contra-covid-19-poblaciones-edad-avanzada-cuatro</a></p></li>
 </ol>
 <p><!--
 

@@ -50,7 +50,7 @@ lubridate:
 
   * Lubridate: lubridate es una biblioteca de R diseñada para facilitar la manipulación y cálculos con fechas y horas, lo que simplifica la manipulación de objetos de fecha y hora, proporcionando funciones que facilitan la extracción de componentes de fecha (día, mes, año, etc.), la realización de operaciones aritméticas con fechas, y la conversión entre diferentes formatos de fecha y hora.
 
-# Metodología y resultados
+# Metodología y Resultados
 En este análisis epidemiológico, nos sumergimos en un vasto océano de datos recopilados por el Instituto Nacional de Salud en Colombia desde el 27 de marzo de 2020 hasta el 29 de noviembre de 2023. Esta preciada información, extraída de notificaciones a SIVIGILA, revela el impacto del COVID-19 en el territorio colombiano. Entre sus datos importantes, encontramos la fecha de notificación a SIVIGILA, el nombre del municipio donde cada historia médica se desenvuelve, la edad del paciente, el tipo de contagio que desencadenó el padecimiento, la fecha de diagnóstico que señala el comienzo de la enfermedad, y la fecha de defunción de aquellos que perdieron su lucha contra el COVID-19.
 
 En este *dataset* que muestra información sobre salud y protección social exploramos, no solo la propagación del virus, sino también las estrategias implementadas para contenerlo y las respuestas de las comunidades. Con la edad del paciente como una guía cronológica, trazamos los patrones que revelan vulnerabilidades específicas y triunfos en diferentes segmentos de la población.
@@ -297,7 +297,7 @@ ggplot(covid, aes(x = Nombre.departamento, fill = Recuperado)) +
 
 ```
 
-Teniendo en cuenta el texto y gráficas anteriores se puede afirmar que si, primero que todo es tener en cuenta que la mayoria de adultos mayores se encuentran entre los 60 y 80 años, por lo que se observa en la grafica, la mayor cantidad de fallecidos se encuentra cerca aproximademente de los 80, mientras que la mayoria de personas en estado leve se encuentra cerca de los 60 años.
+Teniendo en cuenta el texto y gráficas anteriores (Que se pueden revisar poinendo "eval=TRUE" en el chunk de código) se puede afirmar que si, primero que todo es tener en cuenta que la mayoria de adultos mayores se encuentran entre los 60 y 80 años, por lo que se observa en la grafica, la mayor cantidad de fallecidos se encuentra cerca aproximademente de los 80, mientras que la mayoria de personas en estado leve se encuentra cerca de los 60 años.
 
 Tambien se llega a concluir que la grafica representa una Exponencial Negativa para la categoria de estado leve, mientras que para el estado fallecido llega a ser una hipergemotrica, principalmente se llega a esta conclusion por la asimetria que se puede observar en aproximadamente cerca de los 70-75 años.
 
@@ -310,7 +310,7 @@ Se conoce como factor de riesgo como algo que aumenta la probabilidad de tener u
 
 Primero, se importan los datos (Paso ya explicado en la primera pregunta de este apartado), tras esto, se instalan las librerías para graficar los datos y manipular las fechas. Este código es portable a cualquier máquina, debido a que, antes de leer el dataset, el usuario tiene que seleccionar la ubicación donde esté guardado el archivo, permitiendo que se encuentre en distintas carpetas, en distintos dispositivos y que, aun así, se lea el dataset exitósamente.  
 
-Segundo, debido a que la diferencia temporal entre el inicio de la vacuncación masiva (21 de febrero del 2021 para colombia, según el ministerio de salud [Ver referencias]) y la primera fecha de inicio de síntomas del paciente más antiguo es distinta de la diferencia temporal entre el inicio de la vacunación masiva y la última fecha de inicio de síntomas del paciente más reciente, se deben evaluar los datos sobre un mismo período de tiempo, pues, si no se hiciera esto, al evaluar los contagios antes del inicio de la vacunación masiva siempre saldrían menos contagios, debido a que hay muchos más casos después del inicio de la fecha de vacunación masiva y esto es porque ha habido mucho más tiempo para recolectar datos después de la fecha de inicio de vacunación masiva. Para este dataset, la fecha de inicio de síntomas más temprana es del 27 de febrero del 2020, lo que quiere decir que, entre esta fecha y el inicio de la vacunación masiva han pasado 359 días. Entonces, para que los períodos de tiempo sean equivalentes, el período de tiempo que se debe evaluar desde que inició la vacunación masiva en Colombia es desde el 20 de febrero del 2021 hasta el 14 de febrero del 2022. Esto se puede evaluar en el siguiente código
+Segundo, para llegar a una respuesta de esta pregunta, se deben analizar las graficas de contagio antes de la llegada de la vacunacion masiva y después de la llegada de la vacunacion masiva, sin embargo, debido a que la diferencia temporal entre el inicio de la vacuncación masiva (21 de febrero del 2021 para colombia, según el ministerio de salud [Ver referencias]) y la primera fecha de inicio de síntomas del paciente más antiguo es distinta de la diferencia temporal entre el inicio de la vacunación masiva y la última fecha de inicio de síntomas del paciente más reciente, se deben evaluar los datos sobre un mismo período de tiempo, pues, si no se hiciera esto, al evaluar los contagios antes del inicio de la vacunación masiva siempre saldrían menos contagios, debido a que hay muchos más casos después del inicio de la fecha de vacunación masiva y esto es porque ha habido mucho más tiempo para recolectar datos después de la fecha de inicio de vacunación masiva. Para este dataset, la fecha de inicio de síntomas más temprana es del 27 de febrero del 2020, lo que quiere decir que, entre esta fecha y el inicio de la vacunación masiva han pasado 359 días. Entonces, para que los períodos de tiempo sean equivalentes, el período de tiempo que se debe evaluar desde que inició la vacunación masiva en Colombia es desde el 20 de febrero del 2021 hasta el 14 de febrero del 2022. Esto se puede evaluar en el siguiente código
 
 ```{r Diferencia temporal antes y después de la vacunación masiva, echo=TRUE, eval=FALSE }
 
@@ -348,6 +348,8 @@ print( aux1 );
 print( aux2 )
 
 ```
+
+Ahora, teniendo en cuenta esto, se pueden ejecutar estos dos chunks de código siguientes:
 
 ```{r Código para responder pregunta 4, eval=FALSE}
 
@@ -427,12 +429,95 @@ print(conteo_sexo)
 ```
 ![Gráfica de contagios por edad y sexo antes de la vacunación](images/infectado_por_edad_antes_de_vacunación.jpeg)
 
+```{r Código para el periodo de tiempo despues de la vacunacion masiva, eval=FALSE}
+
+# Instalar y cargar las librerC-as necesarias si no las tienes instaladas
+
+install.packages("dplyr")
+install.packages("lubridate")
+install.packages("ggplot2")
+
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+covid <- read.csv( file.choose() );
+View(covid)
 
 
-# Discusión
+
+# Filtrar por gC)nero (Femenino y Masculino)
+casos_femenino <-  covid[(covid$Sexo == "F") & ( (as.Date( covid$Fecha.de.inicio.de.síntomas, "%Y-%m-%d" )) >= (as.Date('20-02-2021', "%d-%m-%Y")) ) & ( (as.Date( covid$Fecha.de.inicio.de.síntomas, "%Y-%m-%d" )) < (as.Date('14-02-2022', "%d-%m-%Y")) ), "Edad" ] ;
+
+casos_femenino_sin_NA <- na.omit(  casos_femenino );
+
+casos_femenino_sin_NA <- as.vector( casos_femenino_sin_NA );
+
+# as.Date() es una funciC3n que convierte un string en un objeto tipo fecha
+# funciona con dos argumentos: "2020-12-30" el string de la fecha
+# y "%Y-%m-%d" el formato que, en este caso, indica que primero va el aC1o
+# luego una raya, luego el mes, luego una raya y, finalmente, el dC-a
+
+
+casos_masculino <-  covid[(covid$Sexo == "M") & ( (as.Date( covid$Fecha.de.inicio.de.síntomas, "%Y-%m-%d" )) >= (as.Date('20-02-2021', "%d-%m-%Y")) ) & ( (as.Date( covid$Fecha.de.inicio.de.síntomas, "%Y-%m-%d" )) < (as.Date('14-02-2022', "%d-%m-%Y")) ), "Edad" ] ;
+
+casos_masculino_sin_NA <- na.omit(  casos_masculino );
+
+casos_masculino_sin_NA <- as.vector( casos_masculino_sin_NA );
+
+
+
+# Contar el nC:mero de casos por edad para cada gC)nero
+conteo_edad_femenino <- table(casos_femenino_sin_NA)
+conteo_edad_masculino <- table(casos_masculino_sin_NA)
+
+
+# Crear un dataframe para usar en ggplot
+data_femenino <- data.frame(
+  Edad = as.numeric(names(conteo_edad_femenino)),
+  Femenino = as.numeric(conteo_edad_femenino)
+)
+
+data_masculino <- data.frame(
+  Edad = as.numeric(names(conteo_edad_masculino)),
+  Masculino = as.numeric(conteo_edad_masculino)
+)
+
+# Unir los datos
+merged_data <- merge(data_femenino, data_masculino, by = "Edad", all = TRUE)
+
+# GrC!fico de barras apiladas por edad y gC)nero
+ggplot(merged_data, aes(x = Edad)) +
+  geom_bar(aes(y = Femenino, fill = "Femenino"), stat = "identity") +
+  geom_bar(aes(y = Masculino, fill = "Masculino"), stat = "identity") +
+  labs(title = "Distribucion de Casos de COVID-19 por Edad y Sexo",
+       x = "Edad",
+       y = "Cantidad de Casos") +
+  scale_fill_manual(values = c("Femenino" = "skyblue", "Masculino" = "salmon")) +
+  theme_minimal()
+
+# Contar los valores C:nicos en la columna de sexo
+conteo_sexo <- table(covid$Fecha.de.muerte)
+
+# Mostrar los valores C:nicos y su frecuencia
+print(conteo_sexo)
+
+```
+
+![Gráfica de contagios por edad y sexo antes de la vacunación](images/infectado_por_edad_despues_de_vacunación.jpeg)
+
+Lo que se hace con estos códigos es lo siguiente: Se tiene en cuenta que todas las personas que se encuentran en ese dataset están contagiados, pues, todos tienen un valor distinto de cero en la columna "Fecha.de.inicio.de.síntomas". Teniendo esto en cuenta, simplemente cogemos la columna de edad y la guardamos en un vector. En este vector se cuenta cuantas veces aparece cada edad y se hace una gráfica donde la variable independiente es la edad de los pacientes y la variable dependiente es la cantidad de pacientes que poseen esa edad. Esto se hace por sexo, es decir, uno por masculino y otro por femenino. Como se puede observar en la gráfica, esta es más leptocurtic, es decir, más es más angosta, pero, llega más alto, debido a que nos encontrabamos en pleno pico de la pandemia, por lo tanto, el numero de casos aumentó exponencialmente, decretando un estado de emergencia sanitaria que puso a los servicios sanitarios de Colombia a máxima capacidad. Este pico fue a finales de agosto del 2021 (Según el apartado 4 de referencias). Aún así, se puede confiar en la efectividad de la vacunación, pues, como afirma el apartado 5 de las referencias "La proporción de casos de COVID-19 entre personas de ≥50 años y <50 años disminuyó significativamente (...)  Colombia, 20,8% (IC 95%: 20,6 a 21,1%)", reduciendo ampliamente la morbilidad de los pacientes de covid.
+
+
 
 # Conclusión
+La realización de un proyecto de estadística sobre la mortalidad y otros aspectos del COVID-19 proporciona una valiosa oportunidad para explorar y comprender la complejidad de las repercusiones de esta pandemia a través de una lente numérica y analítica. Al abordar la mortalidad, es esencial no solo cuantificar la magnitud de las pérdidas, sino también considerar las variables que pueden influir en los resultados, como la edad, el género, y las condiciones de salud preexistentes. Este análisis puede revelar patrones significativos que contribuyan a una comprensión más profunda de los factores de riesgo y las poblaciones más vulnerables.
 
+Además de la mortalidad, la estadística también puede arrojar luz sobre otros aspectos críticos de la pandemia, como la propagación del virus, la eficacia de las medidas de mitigación y la distribución geográfica de los casos. La comparación de tasas de incidencia entre regiones puede proporcionar información valiosa para la toma de decisiones y la asignación de recursos.
+
+Es crucial no perder de vista el contexto social, económico y de salud pública al interpretar los resultados estadísticos. Las discusiones deben abordar las implicaciones éticas y sociales de las medidas adoptadas, así como la equidad en el acceso a la atención médica y la distribución de las vacunas. La colaboración interdisciplinaria entre expertos en estadística, salud pública y ética puede enriquecer las interpretaciones y las recomendaciones resultantes.
+
+En última instancia, un proyecto de estadística sobre el COVID-19 no solo busca cuantificar la magnitud de los desafíos que enfrentamos, sino también orientar las respuestas y las políticas de salud pública de manera informada y efectiva, con la esperanza de contribuir a la mitigación y prevención de futuras crisis sanitarias.
 
 # Referencias
   1. Coronavirus. (s. f.). Who.int. Recuperado 4 de diciembre de 2023, de https://www.who.int/es/health-topics/coronavirus
@@ -441,7 +526,11 @@ print(conteo_sexo)
 
   3. de Colombia, M. de S. y. P. S. (s. f.). Colombia comenzará la vacunación contra el covid-19 el 20 de febrero. Gov.co. Recuperado 7 de diciembre de 2023, de https://www.minsalud.gov.co/Paginas/Colombia-comenzara-la-vacunacion-contra-el-covid-19-el-20-de-febrero-.aspx
 
+  4. Chaves Castro, Á. H. (2021). Análisis sobre la evolución del COVID-19 en Colombia: ¿se alcanzará el pico de contagio? Tiempo y economía, 8(1), 123–160. https://doi.org/10.21789/24222704.1672
 
+  5. Sep, 1. (s/f). Impacto temprano de la vacunación contra la COVID-19 en poblaciones de edad avanzada en cuatro países de las Américas, 2021. Paho.org. Recuperado el 7 de diciembre de 2023, de https://www.paho.org/es/noticias/1-9-2023-impacto-temprano-vacunacion-contra-covid-19-poblaciones-edad-avanzada-cuatro
+
+  
 
  <!--
 
